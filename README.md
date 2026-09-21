@@ -272,8 +272,16 @@ After `make pipeline` (artifacts + processed data are mounted read-only into the
 
 ```bash
 cp .env.example .env            # set POSTGRES_PASSWORD
+
+# A) bundled PostgreSQL container
+docker compose --profile bundled-db up --build
+
+# B) your own PostgreSQL (e.g. a database named RetailDB): set COMPOSE_DATABASE_URL in .env, see .env.example
 docker compose up --build
 ```
+
+With (B) the backend connects to PostgreSQL on your host via `host.docker.internal`; the bundled
+`postgres` service is not started. The host PostgreSQL must accept connections from Docker.
 
 * Frontend: <http://localhost:3000> (nginx; proxies `/api` and `/docs` to the backend)
 * API docs: <http://localhost:8000/docs> · Health: <http://localhost:8000/health>
@@ -311,6 +319,7 @@ DB URLs are masked in logs.
 | `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | `retail` / *(required)* / `retail_sales` | database credentials |
 | `POSTGRES_HOST` / `POSTGRES_PORT` | `localhost` / `55432` | used when the API runs on your machine |
 | `DATABASE_URL` | – | full SQLAlchemy URL (overrides the above) |
+| `COMPOSE_DATABASE_URL` | – | database URL used by `docker compose` (e.g. your own `RetailDB` via `host.docker.internal`); unset = bundled Postgres |
 | `MODEL_ARTIFACTS_DIR` / `PROCESSED_DATA_DIR` | `./ml/artifacts` / `./data/processed` | relative paths resolve against the project root |
 | `CORS_ORIGINS` | `http://localhost:5173,http://localhost:3000` | allowed browser origins |
 | `CORS_ORIGIN_REGEX` | – | extra allowed origins by regex (e.g. Vercel domains) |

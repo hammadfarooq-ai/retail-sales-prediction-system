@@ -1,10 +1,15 @@
 # docker compose up --build
 # Prerequisite: run the ML pipeline once (`make pipeline`) so ml/artifacts and data/processed exist;
 # they are mounted read-only into the backend, which seeds PostgreSQL on first start.
+#
+# Database: the backend uses COMPOSE_DATABASE_URL from .env (e.g. your own PostgreSQL "RetailDB" on the
+# host, reached via host.docker.internal). If it is not set, start the bundled PostgreSQL instead:
+#     docker compose --profile bundled-db up --build
 name: retail-sales
 
 services:
   postgres:
+    profiles: ["bundled-db"]   # optional: only started with --profile bundled-db
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
@@ -29,15 +34,15 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+        required: false        # ignored when the bundled database profile is not enabled
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # reach a PostgreSQL running on the host (Linux too)
     environment:
       ENVIRONMENT: production
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       LOG_JSON: ${LOG_JSON:-false}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-retail_sales}
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: "5432"
+      # External database (RetailDB) if COMPOSE_DATABASE_URL is set, else the bundled postgres service.
+      DATABASE_URL: ${COMPOSE_DATABASE_URL:-postgresql+psycopg://${POSTGRES_USER:-retail}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-retail_sales}}
       MODEL_ARTIFACTS_DIR: /app/ml/artifacts
       PROCESSED_DATA_DIR: /app/data/processed
       HISTORY_DAYS_IN_DB: ${HISTORY_DAYS_IN_DB:-180}
