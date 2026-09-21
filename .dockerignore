@@ -1,0 +1,10 @@
+.git
+.venv
+**/node_modules
+**/__pycache__
+frontend/dist
+data/*.csv
+data/processed
+ml/artifacts/*.log
+.env
+docs

@@ -1,0 +1,339 @@
+{
+  "selection_metric": "validation MAE (ML models only)",
+  "selected_model": "lightgbm_tweedie",
+  "comparison": {
+    "naive_seasonal_lag7": {
+      "description": "Prediction = quantity sold 7 days earlier (same weekday)",
+      "is_baseline": true,
+      "validation": {
+        "mae": 3.929204459264986,
+        "rmse": 8.374780225955735,
+        "mape": 88.54960830361073,
+        "smape": 77.93969456151518,
+        "wape": 48.219846053370915,
+        "r2": 0.9498565385814547,
+        "bias": 0.06106027293667339,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.7095414843726022,
+        "rmse": 8.404728942510394,
+        "mape": 86.13625103383535,
+        "smape": 74.26921395726318,
+        "wape": 46.57974736435243,
+        "r2": 0.9489159879761975,
+        "bias": -0.0047695026024459335,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 0.0,
+      "best_iteration": null,
+      "params": {}
+    },
+    "naive_moving_avg_28": {
+      "description": "Prediction = mean daily quantity over the 28 days ending at the forecast origin",
+      "is_baseline": true,
+      "validation": {
+        "mae": 3.655611163468061,
+        "rmse": 9.611032833400314,
+        "mape": 74.54977710330714,
+        "smape": 73.525536213276,
+        "wape": 44.86226394194525,
+        "r2": 0.9339599194891448,
+        "bias": 0.20350972694028352,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.4378721329977306,
+        "rmse": 9.182530298731873,
+        "mape": 71.88284814966116,
+        "smape": 71.34156203276511,
+        "wape": 43.16846599521599,
+        "r2": 0.9390235249374287,
+        "bias": 0.018137657018421287,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 0.0,
+      "best_iteration": null,
+      "params": {}
+    },
+    "ridge": {
+      "description": "Ridge regression (median-imputed, standardised features, one-hot store)",
+      "is_baseline": false,
+      "validation": {
+        "mae": 3.5298134986138336,
+        "rmse": 7.919190944148847,
+        "mape": 81.51409391333213,
+        "smape": 81.49659082257685,
+        "wape": 43.31845422269254,
+        "r2": 0.9551637686427323,
+        "bias": 0.31414383968248033,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.342851476830236,
+        "rmse": 7.216447850510181,
+        "mape": 80.59860678785427,
+        "smape": 84.02052294344509,
+        "wape": 41.97531633579778,
+        "r2": 0.9623396345473683,
+        "bias": 0.3395087339212668,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 23.3,
+      "best_iteration": null,
+      "params": {
+        "alpha": 10.0
+      }
+    },
+    "random_forest": {
+      "description": "Random Forest (trained on a 600k-row random sample of the training period)",
+      "is_baseline": false,
+      "validation": {
+        "mae": 3.292969819592195,
+        "rmse": 7.889738011571251,
+        "mape": 69.30323575135132,
+        "smape": 77.12021900437604,
+        "wape": 40.41186947773024,
+        "r2": 0.9554966568905632,
+        "bias": 0.1886662514796102,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.1191092310052784,
+        "rmse": 7.219358354740934,
+        "mape": 66.88077951598342,
+        "smape": 80.47504049657302,
+        "wape": 39.16584316258644,
+        "r2": 0.9623092504140432,
+        "bias": 0.0993408232187849,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 511.0,
+      "best_iteration": null,
+      "params": {
+        "n_estimators": 100,
+        "max_depth": 16,
+        "min_samples_leaf": 30,
+        "max_features": 0.5
+      }
+    },
+    "xgboost": {
+      "description": "XGBoost (histogram trees, squared error, early stopping on validation)",
+      "is_baseline": false,
+      "validation": {
+        "mae": 3.303539430909874,
+        "rmse": 7.949949314564119,
+        "mape": 69.9247454324842,
+        "smape": 77.17095583811785,
+        "wape": 40.541581493449016,
+        "r2": 0.954814801776353,
+        "bias": 0.14246045495384133,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.146381668210331,
+        "rmse": 8.036300906981527,
+        "mape": 67.23083681755536,
+        "smape": 80.45942865775811,
+        "wape": 39.508296061515644,
+        "r2": 0.9532964433793152,
+        "bias": 0.0429970932932759,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 229.0,
+      "best_iteration": 129,
+      "params": {
+        "learning_rate": 0.05,
+        "max_depth": 8,
+        "min_child_weight": 20
+      }
+    },
+    "lightgbm": {
+      "description": "LightGBM (squared error, early stopping on validation)",
+      "is_baseline": false,
+      "validation": {
+        "mae": 3.278769876102412,
+        "rmse": 7.63488104059623,
+        "mape": 70.12938938426826,
+        "smape": 77.25345071593952,
+        "wape": 40.23760542602651,
+        "r2": 0.9583253441964482,
+        "bias": 0.13721524176088717,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.1324954069301225,
+        "rmse": 7.741633660228576,
+        "mape": 67.59977645992548,
+        "smape": 80.52949322231466,
+        "wape": 39.33392989119719,
+        "r2": 0.956658612776685,
+        "bias": 0.1355913806342176,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 163.6,
+      "best_iteration": 144,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 127,
+        "min_child_samples": 50
+      }
+    },
+    "lightgbm_tweedie": {
+      "description": "LightGBM with Tweedie objective (non-negative, zero-inflated demand)",
+      "is_baseline": false,
+      "validation": {
+        "mae": 3.179721686245148,
+        "rmse": 7.49780888678469,
+        "mape": 65.67077501204899,
+        "smape": 76.7379682469631,
+        "wape": 39.02206968175634,
+        "r2": 0.9598083158253119,
+        "bias": 0.03102080634597205,
+        "n_rows": 269556,
+        "mape_coverage_pct": 80.2623573580258
+      },
+      "test": {
+        "mae": 3.0081081901908964,
+        "rmse": 6.9037136931136915,
+        "mape": 64.67656020309343,
+        "smape": 80.02037415600454,
+        "wape": 37.77203197053057,
+        "r2": 0.9655330289415167,
+        "bias": 0.1173724001139764,
+        "n_rows": 269556,
+        "mape_coverage_pct": 77.9196159610619
+      },
+      "fit_seconds": 484.7,
+      "best_iteration": 1051,
+      "params": {
+        "objective": "tweedie",
+        "tweedie_variance_power": 1.3,
+        "num_leaves": 127
+      }
+    }
+  },
+  "final_model_test": {
+    "mae": 2.9933408106410866,
+    "rmse": 8.160684025610719,
+    "mape": 64.60097894089009,
+    "smape": 80.07339375264695,
+    "wape": 37.58660182732785,
+    "r2": 0.95183953180103,
+    "bias": 0.12403257529230165,
+    "n_rows": 269556,
+    "mape_coverage_pct": 77.9196159610619
+  },
+  "final_model_test_by_store": {
+    "1": {
+      "mae": 3.1183108672130415,
+      "rmse": 6.929065316522466,
+      "mape": 65.0040545376933,
+      "smape": 79.96872990240749,
+      "wape": 35.31583778974329,
+      "r2": 0.9717262968205483,
+      "bias": 0.008248240832176387,
+      "n_rows": 99036,
+      "mape_coverage_pct": 77.93327678823863
+    },
+    "2": {
+      "mae": 2.3022927160884716,
+      "rmse": 4.00191132873654,
+      "mape": 59.741351340513624,
+      "smape": 85.17088015553549,
+      "wape": 41.79370985955325,
+      "r2": 0.9214130339539777,
+      "bias": -0.11557771438494224,
+      "n_rows": 25704,
+      "mape_coverage_pct": 74.84049175225645
+    },
+    "3": {
+      "mae": 3.2786162218113732,
+      "rmse": 6.221093624142748,
+      "mape": 60.42985994129189,
+      "smape": 84.24121535285391,
+      "wape": 40.081151602438446,
+      "r2": 0.8900009377098462,
+      "bias": 0.1570761589467295,
+      "n_rows": 23142,
+      "mape_coverage_pct": 74.41448448707976
+    },
+    "4": {
+      "mae": 2.983349539986857,
+      "rmse": 9.885078266625436,
+      "mape": 65.99319359205202,
+      "smape": 78.28901887469824,
+      "wape": 38.56157044990623,
+      "r2": 0.9377368726157951,
+      "bias": 0.2626083237720596,
+      "n_rows": 121674,
+      "mape_coverage_pct": 79.22563571510757
+    }
+  },
+  "final_model_test_aggregated": {
+    "store_day": {
+      "mae": 556.3247057932548,
+      "rmse": 875.8462195673417,
+      "mape": 4.397176038999046,
+      "smape": 4.358844799379319,
+      "wape": 4.353770403009892,
+      "r2": 0.9907220261542026,
+      "bias": 199.01028810995962,
+      "n_rows": 168,
+      "mape_coverage_pct": 100.0
+    },
+    "day_total": {
+      "mae": 1566.4036509089685,
+      "rmse": 1947.5552087627145,
+      "mape": 3.080161441579926,
+      "smape": 3.058502760133199,
+      "wape": 3.0646499208254205,
+      "r2": 0.849276513470462,
+      "bias": 796.0412105685582,
+      "n_rows": 42,
+      "mape_coverage_pct": 100.0
+    },
+    "item_store_test_week": {
+      "mae": 10.29392091892454,
+      "rmse": 35.81185865648588,
+      "mape": 56.88426462331388,
+      "smape": 49.90399108898697,
+      "wape": 21.543014500598858,
+      "r2": 0.9750128618200729,
+      "bias": 0.7441954655404149,
+      "n_rows": 44926,
+      "mape_coverage_pct": 89.4849307750523
+    }
+  },
+  "baseline_lag7_test": {
+    "mae": 3.7095414843726022,
+    "rmse": 8.404728942510394,
+    "mape": 86.13625103383535,
+    "smape": 74.26921395726318,
+    "wape": 46.57974736435243,
+    "r2": 0.9489159879761975,
+    "bias": -0.0047695026024459335,
+    "n_rows": 269556,
+    "mape_coverage_pct": 77.9196159610619
+  },
+  "improvement_vs_lag7_baseline_pct": {
+    "mae": 19.306986503552935,
+    "rmse": 2.9036619570836697
+  },
+  "prediction_interval": {
+    "level": 0.8,
+    "empirical_test_coverage_pct": 80.98539821039043
+  }
+}

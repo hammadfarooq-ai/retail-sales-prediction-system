@@ -1,0 +1,42 @@
+# Secrets / environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/coverage/
+*.tsbuildinfo
+
+# Large raw dataset (obtain from Kaggle, see data/README.md)
+data/*.csv
+data/raw/
+data/processed/
+!data/README.md
+
+# Heavy ML artifacts (regenerate with `make pipeline`). Small JSON reports + plots are tracked.
+ml/artifacts/*.joblib
+ml/artifacts/*.pkl
+ml/artifacts/cache/
+
+# Editors / OS / temp
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+.claude/

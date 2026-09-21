@@ -1,0 +1,24 @@
+{
+  "store_4_first_sale_date": "2023-12-13",
+  "weekday_revenue_index": {
+    "0": 0.905,
+    "1": 0.946,
+    "2": 0.984,
+    "3": 1.058,
+    "4": 1.252,
+    "5": 1.038,
+    "6": 0.817
+  },
+  "n_departments": 183,
+  "top5_departments_revenue_share_pct": 23.2,
+  "item_store_pairs": 58000,
+  "pairs_density_ge_0_7_full_period": 7186,
+  "top10pct_pairs_revenue_share_pct": 74.3,
+  "universe_quantity_outliers_above_3iqr_pct": 5.87,
+  "universe_zero_days_pct": 15.41,
+  "universe_promo_days_pct": 16.67,
+  "promo_lift_median": 1.477,
+  "promo_lift_pairs_compared": 4502,
+  "share_pairs_with_lift_gt_1_pct": 87.8,
+  "median_discount_depth": 0.143
+}

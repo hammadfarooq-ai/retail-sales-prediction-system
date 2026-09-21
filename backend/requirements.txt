@@ -1,0 +1,17 @@
+# Runtime dependencies of the API (pinned to the versions the model artifacts were trained with)
+fastapi==0.141.1
+uvicorn[standard]==0.52.1
+pydantic==2.11.7
+pydantic-settings==2.10.1
+SQLAlchemy==2.0.43
+psycopg[binary]==3.3.6
+
+# Model serving (must match the versions used in ml/ so joblib artifacts unpickle correctly)
+numpy==2.2.6
+pandas==2.3.0
+scipy==1.16.0
+scikit-learn==1.7.0
+lightgbm==4.6.0
+joblib==1.5.1
+pyarrow==21.0.0
+threadpoolctl==3.6.0

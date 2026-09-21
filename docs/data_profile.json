@@ -1,0 +1,496 @@
+{
+  "actual_matrix.csv": {
+    "file": "actual_matrix.csv",
+    "size_mb": 1.1,
+    "rows": 35202,
+    "columns": {
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 15398
+      },
+      "date": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 1325,
+        "min": "2019-10-17",
+        "max": "2024-09-26"
+      },
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 2.0,
+        "p99": 4.0,
+        "max": 4.0
+      }
+    },
+    "duplicate_rows": 0,
+    "duplicate_date_item_store_keys": 0
+  },
+  "catalog.csv": {
+    "file": "catalog.csv",
+    "size_mb": 25.3,
+    "rows": 219810,
+    "columns": {
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 219810
+      },
+      "dept_name": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 196
+      },
+      "class_name": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 613
+      },
+      "subclass_name": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 1007
+      },
+      "item_type": {
+        "dtype": "object",
+        "nulls": 176224,
+        "null_pct": 80.17,
+        "nunique": 673
+      },
+      "weight_volume": {
+        "dtype": "float64",
+        "nulls": 136858,
+        "null_pct": 62.26,
+        "nunique": 873,
+        "min": 1e-05,
+        "p01": 0.008,
+        "median": 0.45,
+        "p99": 48.0,
+        "max": 3500.0
+      },
+      "weight_netto": {
+        "dtype": "float64",
+        "nulls": 170853,
+        "null_pct": 77.73,
+        "nunique": 828,
+        "min": -0.65,
+        "p01": 0.005,
+        "median": 0.23,
+        "p99": 2.5,
+        "max": 7200.0
+      },
+      "fatness": {
+        "dtype": "float64",
+        "nulls": 212598,
+        "null_pct": 96.72,
+        "nunique": 181,
+        "min": 0.03,
+        "p01": 0.1,
+        "median": 3.6,
+        "p99": 82.5,
+        "max": 458.0
+      }
+    },
+    "duplicate_rows": 0
+  },
+  "discounts_history.csv": {
+    "file": "discounts_history.csv",
+    "size_mb": 341.5,
+    "rows": 3746744,
+    "columns": {
+      "date": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 8527,
+        "min": "2022-08-28",
+        "max": "2045-12-31"
+      },
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 16081
+      },
+      "sale_price_before_promo": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 1828,
+        "min": 0.0,
+        "p01": 23.9,
+        "median": 179.9,
+        "p99": 3490.0,
+        "max": 16999.9
+      },
+      "sale_price_time_promo": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 1347,
+        "min": 0.0,
+        "p01": 20.9,
+        "median": 149.9,
+        "p99": 2490.0,
+        "max": 15999.9
+      },
+      "promo_type_code": {
+        "dtype": "float64",
+        "nulls": 317846,
+        "null_pct": 8.48,
+        "nunique": 13,
+        "min": 1.0,
+        "p01": 5.0,
+        "median": 5.0,
+        "p99": 10.0,
+        "max": 44.0
+      },
+      "doc_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 13763
+      },
+      "number_disc_day": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 8766,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 8.0,
+        "p99": 7137.0,
+        "max": 8766.0
+      },
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 2.0,
+        "p99": 4.0,
+        "max": 4.0
+      }
+    },
+    "duplicate_rows": 0,
+    "duplicate_date_item_store_keys": 0
+  },
+  "markdowns.csv": {
+    "file": "markdowns.csv",
+    "size_mb": 0.4,
+    "rows": 8979,
+    "columns": {
+      "date": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 729,
+        "min": "2022-08-28",
+        "max": "2024-09-26"
+      },
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 313
+      },
+      "normal_price": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 211,
+        "min": 0.0,
+        "p01": 79.9,
+        "median": 239.0,
+        "p99": 879.0,
+        "max": 2790.0
+      },
+      "price": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 876,
+        "min": 12.5,
+        "p01": 52.878,
+        "median": 150.0,
+        "p99": 620.0,
+        "max": 1380.5
+      },
+      "quantity": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 142,
+        "min": 0.115,
+        "p01": 1.0,
+        "median": 2.0,
+        "p99": 17.0,
+        "max": 120.0
+      },
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 3,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 2.0,
+        "p99": 4.0,
+        "max": 4.0
+      }
+    },
+    "duplicate_rows": 268,
+    "duplicate_date_item_store_keys": 268
+  },
+  "online.csv": {
+    "file": "online.csv",
+    "size_mb": 56.8,
+    "rows": 1123412,
+    "columns": {
+      "date": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 761,
+        "min": "2022-08-28",
+        "max": "2024-09-26"
+      },
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 18405
+      },
+      "quantity": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 16584,
+        "min": 0.002,
+        "p01": 0.166,
+        "median": 1.0,
+        "p99": 16.0,
+        "max": 999.0
+      },
+      "price_base": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 73264,
+        "min": -8458.33,
+        "p01": 7.56,
+        "median": 78.695,
+        "p99": 946.227799999998,
+        "max": 12171.62
+      },
+      "sum_total": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 112454,
+        "min": -341.88,
+        "p01": 13.14,
+        "median": 110.96,
+        "p99": 1929.8145999999856,
+        "max": 43556.44
+      },
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 2,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 1.0,
+        "p99": 4.0,
+        "max": 4.0
+      }
+    },
+    "duplicate_rows": 0,
+    "duplicate_date_item_store_keys": 0
+  },
+  "price_history.csv": {
+    "file": "price_history.csv",
+    "size_mb": 29.3,
+    "rows": 698626,
+    "columns": {
+      "date": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 761,
+        "min": "2022-08-28",
+        "max": "2024-09-26"
+      },
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 37624
+      },
+      "price": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4776,
+        "min": 0.0,
+        "p01": 0.0,
+        "median": 149.9,
+        "p99": 2399.9,
+        "max": 118496741.22
+      },
+      "code": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 31,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 10.0,
+        "p99": 9999999999.0,
+        "max": 9999999999.0
+      },
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 2.0,
+        "p99": 4.0,
+        "max": 4.0
+      }
+    },
+    "duplicate_rows": 18641,
+    "duplicate_date_item_store_keys": 82320
+  },
+  "sales.csv": {
+    "file": "sales.csv",
+    "size_mb": 379.2,
+    "rows": 7432685,
+    "columns": {
+      "date": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 761,
+        "min": "2022-08-28",
+        "max": "2024-09-26"
+      },
+      "item_id": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 28182
+      },
+      "quantity": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 62422,
+        "min": -500.0,
+        "p01": 0.236,
+        "median": 2.0,
+        "p99": 57.0,
+        "max": 4952.0
+      },
+      "price_base": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 126497,
+        "min": -21676.67,
+        "p01": 13.9,
+        "median": 109.9,
+        "p99": 1518.1580000000076,
+        "max": 28999.9
+      },
+      "sum_total": {
+        "dtype": "float64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 471682,
+        "min": -20410.8,
+        "p01": 26.7,
+        "median": 259.6,
+        "p99": 7376.154800000004,
+        "max": 686524.21
+      },
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4,
+        "min": 1.0,
+        "p01": 1.0,
+        "median": 2.0,
+        "p99": 4.0,
+        "max": 4.0
+      }
+    },
+    "duplicate_rows": 0,
+    "duplicate_date_item_store_keys": 0
+  },
+  "stores.csv": {
+    "file": "stores.csv",
+    "size_mb": 0.0,
+    "rows": 4,
+    "columns": {
+      "store_id": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4,
+        "min": 1.0,
+        "p01": 1.03,
+        "median": 2.5,
+        "p99": 3.9699999999999998,
+        "max": 4.0
+      },
+      "division": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 2
+      },
+      "format": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4
+      },
+      "city": {
+        "dtype": "object",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 3
+      },
+      "area": {
+        "dtype": "int64",
+        "nulls": 0,
+        "null_pct": 0.0,
+        "nunique": 4,
+        "min": 109.0,
+        "p01": 112.03,
+        "median": 855.0,
+        "p99": 1875.3899999999999,
+        "max": 1887.0
+      }
+    },
+    "duplicate_rows": 0
+  }
+}

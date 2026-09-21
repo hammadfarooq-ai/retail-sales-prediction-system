@@ -1,0 +1,71 @@
+# docker compose up --build
+# Prerequisite: run the ML pipeline once (`make pipeline`) so ml/artifacts and data/processed exist;
+# they are mounted read-only into the backend, which seeds PostgreSQL on first start.
+name: retail-sales
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-retail_sales}
+    ports:
+      - "${POSTGRES_HOST_PORT:-55432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: production
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_JSON: ${LOG_JSON:-false}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-retail_sales}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      MODEL_ARTIFACTS_DIR: /app/ml/artifacts
+      PROCESSED_DATA_DIR: /app/data/processed
+      HISTORY_DAYS_IN_DB: ${HISTORY_DAYS_IN_DB:-180}
+      MAX_FORECAST_HORIZON_DAYS: ${MAX_FORECAST_HORIZON_DAYS:-28}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+    volumes:
+      - ./ml/artifacts:/app/ml/artifacts:ro
+      - ./data/processed:/app/data/processed:ro
+    ports:
+      - "${BACKEND_HOST_PORT:-8000}:8000"
+    healthcheck:
+      # The very first start seeds PostgreSQL (~2-3 min) and loads the model before serving.
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 360s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_HOST_PORT:-3000}:80"
+
+volumes:
+  pgdata:
