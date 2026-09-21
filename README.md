@@ -16,7 +16,7 @@ PostgreSQL, and a React + TypeScript analytics dashboard — built on the
 [Dataset](#dataset) · [ML problem](#ml-problem) · [Feature engineering](#feature-engineering) ·
 [Split](#train--validation--test-strategy) · [Models & results](#models-evaluated-and-actual-metrics) ·
 [API](#backend-api) · [Database](#database) · [Frontend](#frontend) · [Structure](#project-structure) ·
-[Installation](#installation) · [Docker](#docker) · [Deploy](#deploy-vercel--render) · [Env vars](#environment-variables) ·
+[Installation](#installation) · [Docker](#docker) · [Deploy](#deploy-vercel--railway) · [Env vars](#environment-variables) ·
 [Testing](#testing) · [Limitations](#limitations) · [Future work](#future-improvements)
 
 ## Overview
@@ -289,25 +289,23 @@ With (B) the backend connects to PostgreSQL on your host via `host.docker.intern
 The backend container seeds PostgreSQL on first start (skipped when already up to date). All three
 services have health checks; the frontend waits for a healthy backend, the backend for a healthy database.
 
-## Deploy (Vercel + Render)
+## Deploy (Vercel + Railway)
 
-The React frontend goes on **Vercel**; the API and PostgreSQL go on **Render** (the API needs
+The React frontend goes on **Vercel**; the API and PostgreSQL go on **Railway** (the API needs
 LightGBM, pandas and a database, which do not fit Vercel's serverless limits).
 
 1. **Bundle** (already committed): `python deploy/make_bundle.py` copies the model artifacts and slim
    seed tables (~27 MB, derived aggregates only — no raw Kaggle data) into `deploy/`.
-2. **Render:** *New → Blueprint* → pick this repo. [`render.yaml`](render.yaml) creates the
-   `retail-sales-api` web service ([`deploy/Dockerfile.render`](deploy/Dockerfile.render)) and the
-   `retail-sales-db` PostgreSQL. The first start seeds the database (~3–5 min). Verified locally under
-   a 512 MB memory limit. Note: the free tier has a very small CPU, so the heavy *store-total forecast*
-   can take a while, and free Render Postgres is time-limited; use a paid plan for real use.
-3. **Vercel:** import the repo, set **Root Directory = `frontend`**, name the project
-   `retail-sales-prediction`, and add the environment variable
-   `VITE_API_URL = https://<your-render-service>.onrender.com`.
+2. **Railway:** create a project with a **PostgreSQL** database and a service built from this repo
+   ([`railway.json`](railway.json) → [`deploy/Dockerfile`](deploy/Dockerfile)). Set on the service:
+   `DATABASE_URL=${{Postgres.DATABASE_URL}}`, `ENVIRONMENT=production` and
+   `CORS_ORIGIN_REGEX=^https://retail-sales-prediction[a-z0-9-]*\.vercel\.app$`, then generate a domain.
+   The first start seeds the database (a few minutes). CLI: `railway init`, `railway add --database postgres`,
+   `railway add --service api`, `railway up`, `railway domain`.
+3. **Vercel:** import the repo (or `cd frontend && npx vercel --prod`), **Root Directory = `frontend`**,
+   project name `retail-sales-prediction`, and set `VITE_API_URL=https://<your-railway-domain>`.
    [`frontend/vercel.json`](frontend/vercel.json) adds the SPA fallback.
-   CORS: the API already allows `https://retail-sales-prediction*.vercel.app`
-   (`CORS_ORIGIN_REGEX`); set `CORS_ORIGINS` to a custom domain if you use one.
-   CLI alternative: `cd frontend && npx vercel login && npx vercel --prod`.
+   The API allows `https://retail-sales-prediction*.vercel.app`; set `CORS_ORIGINS` for a custom domain.
 
 ## Environment variables
 

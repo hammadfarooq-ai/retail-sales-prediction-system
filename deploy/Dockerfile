@@ -1,4 +1,4 @@
-# Hosted backend image (Render etc.). Build context = repository root.
+# Hosted backend image (Railway etc.). Build context = repository root.
 # Unlike backend/Dockerfile, the model artifacts and seed tables are baked in
 # (deploy/make_bundle.py creates them), so no volume mounts are needed.
 FROM python:3.12-slim
@@ -31,7 +31,7 @@ RUN chmod +x /app/backend/docker-entrypoint.sh \
 USER appuser
 WORKDIR /app/backend
 
-# Render injects $PORT. The entrypoint seeds PostgreSQL on first start, then execs the command.
+# The host (Railway) injects $PORT. The entrypoint seeds PostgreSQL on first start, then execs the command.
 EXPOSE 10000
 ENTRYPOINT ["/app/backend/docker-entrypoint.sh"]
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
