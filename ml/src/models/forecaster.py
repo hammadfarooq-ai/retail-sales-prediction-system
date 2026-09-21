@@ -172,7 +172,7 @@ class Forecaster:
         res["is_recursive"] = False
         return res
 
-    def forecast(
+    def _forecast_chunk(
         self,
         history: pd.DataFrame,
         promo_future: pd.DataFrame,
@@ -235,3 +235,32 @@ class Forecaster:
             ext.loc[m, "quantity"] = key.reindex(idx[m]).to_numpy()
             block_start = block_end + pd.Timedelta(days=1)
         return pd.concat(results, ignore_index=True)
+
+    def forecast(
+        self,
+        history: pd.DataFrame,
+        promo_future: pd.DataFrame,
+        stores: pd.DataFrame,
+        end_date: date,
+        overrides: dict[tuple[int, str, date], Override] | None = None,
+        chunk_pairs: int = 400,
+    ) -> pd.DataFrame:
+        """Forecast every series in `history` for last_history_day+1 .. end_date.
+
+        Series are independent, so they are processed in chunks of ``chunk_pairs`` to bound peak
+        memory (a whole store is ~2,400 series); results are identical to a single pass.
+        """
+        pairs = history[["store_id", "item_id"]].drop_duplicates().reset_index(drop=True)
+        if len(pairs) <= chunk_pairs:
+            return self._forecast_chunk(history, promo_future, stores, end_date, overrides)
+        parts = []
+        for i in range(0, len(pairs), chunk_pairs):
+            keys = pairs.iloc[i : i + chunk_pairs]
+            h = history.merge(keys, on=["store_id", "item_id"])
+            p = (
+                promo_future.merge(keys, on=["store_id", "item_id"])
+                if len(promo_future)
+                else promo_future
+            )
+            parts.append(self._forecast_chunk(h, p, stores, end_date, overrides))
+        return pd.concat(parts, ignore_index=True)

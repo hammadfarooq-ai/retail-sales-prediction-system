@@ -148,3 +148,16 @@ def test_real_artifacts_load_and_predict():
         <= meta["split"]["val_end"]
         < meta["split"]["test_start"]
     )
+
+
+def test_chunked_forecast_equals_single_pass(fc, panel):
+    empty = pd.DataFrame(
+        columns=["store_id", "item_id", "date", "promo_price", "promo_before_price", "promo_type"]
+    )
+    end = (LAST_DATE + timedelta(days=12)).date()
+    whole = fc.forecast(panel, empty, STORES, end, chunk_pairs=1000)
+    chunked = fc.forecast(panel, empty, STORES, end, chunk_pairs=2)  # 6 series -> 3 chunks
+    key = ["store_id", "item_id", "date"]
+    a = whole.sort_values(key).reset_index(drop=True)
+    b = chunked.sort_values(key).reset_index(drop=True)
+    pd.testing.assert_frame_equal(a, b)

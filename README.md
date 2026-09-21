@@ -16,7 +16,7 @@ PostgreSQL, and a React + TypeScript analytics dashboard — built on the
 [Dataset](#dataset) · [ML problem](#ml-problem) · [Feature engineering](#feature-engineering) ·
 [Split](#train--validation--test-strategy) · [Models & results](#models-evaluated-and-actual-metrics) ·
 [API](#backend-api) · [Database](#database) · [Frontend](#frontend) · [Structure](#project-structure) ·
-[Installation](#installation) · [Docker](#docker) · [Env vars](#environment-variables) ·
+[Installation](#installation) · [Docker](#docker) · [Deploy](#deploy-vercel--render) · [Env vars](#environment-variables) ·
 [Testing](#testing) · [Limitations](#limitations) · [Future work](#future-improvements)
 
 ## Overview
@@ -37,7 +37,7 @@ Design decisions come from an inspection of the real files (full write-up:
 * PostgreSQL storage of derived aggregates and the prediction history
 * React dashboard: dashboard, analytics, prediction form, forecasts (CSV export), stores, products, model performance, history, about
 * Docker Compose (postgres + backend + frontend) with health checks
-* 77 Python tests + 21 frontend tests, Ruff / Black / mypy / ESLint / `tsc` all clean
+* 81 Python tests + 21 frontend tests, Ruff / Black / mypy / ESLint / `tsc` all clean
 
 ## Architecture
 
@@ -281,6 +281,26 @@ docker compose up --build
 The backend container seeds PostgreSQL on first start (skipped when already up to date). All three
 services have health checks; the frontend waits for a healthy backend, the backend for a healthy database.
 
+## Deploy (Vercel + Render)
+
+The React frontend goes on **Vercel**; the API and PostgreSQL go on **Render** (the API needs
+LightGBM, pandas and a database, which do not fit Vercel's serverless limits).
+
+1. **Bundle** (already committed): `python deploy/make_bundle.py` copies the model artifacts and slim
+   seed tables (~27 MB, derived aggregates only — no raw Kaggle data) into `deploy/`.
+2. **Render:** *New → Blueprint* → pick this repo. [`render.yaml`](render.yaml) creates the
+   `retail-sales-api` web service ([`deploy/Dockerfile.render`](deploy/Dockerfile.render)) and the
+   `retail-sales-db` PostgreSQL. The first start seeds the database (~3–5 min). Verified locally under
+   a 512 MB memory limit. Note: the free tier has a very small CPU, so the heavy *store-total forecast*
+   can take a while, and free Render Postgres is time-limited; use a paid plan for real use.
+3. **Vercel:** import the repo, set **Root Directory = `frontend`**, name the project
+   `retail-sales-prediction`, and add the environment variable
+   `VITE_API_URL = https://<your-render-service>.onrender.com`.
+   [`frontend/vercel.json`](frontend/vercel.json) adds the SPA fallback.
+   CORS: the API already allows `https://retail-sales-prediction*.vercel.app`
+   (`CORS_ORIGIN_REGEX`); set `CORS_ORIGINS` to a custom domain if you use one.
+   CLI alternative: `cd frontend && npx vercel login && npx vercel --prod`.
+
 ## Environment variables
 
 See [`.env.example`](.env.example). Secrets are read only from the environment (`.env` is git-ignored);
@@ -293,13 +313,14 @@ DB URLs are masked in logs.
 | `DATABASE_URL` | – | full SQLAlchemy URL (overrides the above) |
 | `MODEL_ARTIFACTS_DIR` / `PROCESSED_DATA_DIR` | `./ml/artifacts` / `./data/processed` | relative paths resolve against the project root |
 | `CORS_ORIGINS` | `http://localhost:5173,http://localhost:3000` | allowed browser origins |
+| `CORS_ORIGIN_REGEX` | – | extra allowed origins by regex (e.g. Vercel domains) |
 | `HISTORY_DAYS_IN_DB` · `MAX_FORECAST_HORIZON_DAYS` · `MAX_BATCH_SIZE` | `180` · `28` · `500` | limits |
 | `LOG_LEVEL` · `LOG_JSON` | `INFO` · `false` | logging |
 
 ## Testing
 
 ```bash
-make test-backend     # 77 Python tests: ML + API + DB (no PostgreSQL needed; SQLite + a tiny real LightGBM)
+make test-backend     # 81 Python tests: ML + API + DB (no PostgreSQL needed; SQLite + a tiny real LightGBM)
 make test-frontend    # 21 Vitest tests
 make lint             # ruff + black --check + eslint
 make typecheck        # mypy + tsc

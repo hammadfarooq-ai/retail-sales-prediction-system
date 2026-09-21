@@ -11,6 +11,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
+def normalize_database_url(url: str) -> str:
+    """Managed hosts (Render, Heroku) hand out ``postgres://`` / ``postgresql://`` URLs."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix) :]
+    return url
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(PROJECT_ROOT / ".env", ".env"), env_file_encoding="utf-8", extra="ignore"
@@ -41,6 +49,8 @@ class Settings(BaseSettings):
 
     # HTTP -------------------------------------------------------------------------------
     cors_origins: str = "http://localhost:5173,http://localhost:3000"
+    # Optional regex for additional origins (e.g. Vercel preview/production domains).
+    cors_origin_regex: str | None = None
 
     @field_validator("model_artifacts_dir", "processed_data_dir")
     @classmethod
@@ -52,7 +62,7 @@ class Settings(BaseSettings):
     @property
     def sqlalchemy_url(self) -> str:
         if self.database_url:
-            return self.database_url
+            return normalize_database_url(self.database_url)
         return (
             f"postgresql+psycopg://{self.postgres_user}:{self.postgres_password}"
             f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
