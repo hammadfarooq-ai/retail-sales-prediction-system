@@ -4,6 +4,8 @@ End-to-end retail demand forecasting: a leakage-safe ML pipeline, a FastAPI serv
 PostgreSQL, and a React + TypeScript analytics dashboard — built on the
 [Kaggle *Retail Sales Forecasting* dataset](https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data).
 
+**Dataset used:** [Retail Sales Forecasting Data (Kaggle, by svizor)](https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data) — <https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data>
+
 > Every number in this README (data statistics, metrics, feature importances) was produced by running
 > the code in this repository on the real dataset. Nothing is invented; where something is weak, it is
 > said so in [Limitations](#limitations).
@@ -68,7 +70,7 @@ Design decisions come from an inspection of the real files (full write-up:
 
 ## Dataset
 
-Source: <https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data> (place the CSVs in `./data/`,
+Source: [Retail Sales Forecasting Data on Kaggle](https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data) — <https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data> (place the CSVs in `./data/`,
 see [`data/README.md`](data/README.md)). The raw files are never modified.
 
 ### Dataset structure (measured)
